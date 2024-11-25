@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .registration-form {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .registration-form h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .registration-form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .registration-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .registration-form button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .registration-form button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form class="registration-form">
+        <h1>Doctor Registration</h1>
+        <label for="doctor-license-id">Doctor License ID</label>
+        <input type="text" id="doctor-license-id" name="doctor-license-id" placeholder="Enter your License ID" required>
+        
+        <label for="hospital-name">Hospital Name</label>
+        <input type="text" id="hospital-name" name="hospital-name" placeholder="Enter your Hospital Name" required>
+        
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        
+        <label for="phone-number">Phone Number</label>
+        <input type="tel" id="phone-number" name="phone-number" placeholder="Enter your phone number" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
