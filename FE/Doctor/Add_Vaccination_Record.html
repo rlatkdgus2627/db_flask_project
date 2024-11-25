@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vaccination Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .section {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .section h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .section label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .section input, .section select, .section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .section button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .section button:hover {
+            background: #45a049;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .result-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .result-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .result-section li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <h1>Add Vaccination Record</h1>
+        <label for="vaccine-list">Select Vaccine</label>
+        <select id="vaccine-list" name="vaccine-list" required>
+            <option value="">Loading vaccines...</option>
+        </select>
+        
+        <label for="patient-name">Patient Name</label>
+        <input type="text" id="patient-name" name="patient-name" placeholder="Enter patient's name" required>
+        
+        <label for="patient-id">Resident Registration Number</label>
+        <input type="text" id="patient-id" name="patient-id" placeholder="Enter Resident Registration Number" required>
+        
+        <label for="vaccination-date">Vaccination Date</label>
+        <input type="date" id="vaccination-date" name="vaccination-date" required>
+        
+        <button onclick="addVaccinationRecord()">Register Vaccination</button>
+        
+        <div id="result-section" class="result-section" style="display:none;">
+            <h2>Vaccination Record Added Successfully</h2>
+            <p id="record-details"></p>
+        </div>
+    </div>
+
+    <script>
+        function loadVaccines() {
+            const vaccineList = document.getElementById('vaccine-list');
+
+            // Mock data for vaccines
+            const vaccines = [
+                { id: 1, name: "COVID-19 Vaccine" },
+                { id: 2, name: "Influenza Vaccine" },
+                { id: 3, name: "Tetanus Vaccine" }
+            ];
+
+            vaccineList.innerHTML = "<option value=''>Select a vaccine</option>";
+            vaccines.forEach(vaccine => {
+                const option = document.createElement('option');
+                option.value = vaccine.id;
+                option.textContent = vaccine.name;
+                vaccineList.appendChild(option);
+            });
+        }
+
+        function addVaccinationRecord() {
+            const vaccineList = document.getElementById('vaccine-list');
+            const patientName = document.getElementById('patient-name').value;
+            const patientId = document.getElementById('patient-id').value;
+            const vaccinationDate = document.getElementById('vaccination-date').value;
+            const resultSection = document.getElementById('result-section');
+            const recordDetails = document.getElementById('record-details');
+
+            if (!vaccineList.value || !patientName || !patientId || !vaccinationDate) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Mock registration process
+            const selectedVaccine = vaccineList.options[vaccineList.selectedIndex].text;
+            recordDetails.textContent = `Vaccine: ${selectedVaccine}, Patient: ${patientName}, ID: ${patientId}, Date: ${vaccinationDate}`;
+            resultSection.style.display = "block";
+        }
+
+        // Initialize vaccines on page load
+        window.onload = loadVaccines;
+    </script>
+</body>
+</html>

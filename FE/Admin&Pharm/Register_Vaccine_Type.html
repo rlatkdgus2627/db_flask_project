@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Vaccine Type</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .section {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .section h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .section label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .section input, .section select, .section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .section button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .section button:hover {
+            background: #45a049;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <h1>Register Vaccine Type</h1>
+        <label for="disease-name">Disease Name</label>
+        <input type="text" id="disease-name" name="disease-name" placeholder="Enter disease name" required>
+        <label for="mandatory">Is Mandatory?</label>
+        <select id="mandatory" name="mandatory">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <label for="gender">Applicable Gender</label>
+        <select id="gender" name="gender">
+            <option value="all">All</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <label for="min-age">Minimum Age</label>
+        <input type="number" id="min-age" name="min-age" placeholder="Enter minimum age" required>
+        <label for="cycle">Vaccination Cycle (in years)</label>
+        <input type="number" id="cycle" name="cycle" placeholder="Enter cycle duration" required>
+        <button onclick="registerVaccineType()">Register Vaccine Type</button>
+        <div id="result-section" class="result-section" style="display:none;">
+            <h2>Vaccine Type Registered Successfully</h2>
+            <p id="result-message"></p>
+        </div>
+    </div>
+
+    <script>
+        function registerVaccineType() {
+            const diseaseName = document.getElementById('disease-name').value;
+            const mandatory = document.getElementById('mandatory').value;
+            const gender = document.getElementById('gender').value;
+            const minAge = document.getElementById('min-age').value;
+            const cycle = document.getElementById('cycle').value;
+            const resultSection = document.getElementById('result-section');
+            const resultMessage = document.getElementById('result-message');
+
+            if (!diseaseName || !mandatory || !gender || !minAge || !cycle) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Mock success message
+            resultMessage.textContent = `Disease Name: ${diseaseName}, Mandatory: ${mandatory}, Gender: ${gender}, Min Age: ${minAge}, Cycle: ${cycle}`;
+            resultSection.style.display = "block";
+        }
+    </script>
+</body>
+</html>

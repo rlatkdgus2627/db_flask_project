@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Vaccine Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .section {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .section h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .section label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .section input, .section select, .section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .section button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .section button:hover {
+            background: #45a049;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <h1>Register Vaccine Information</h1>
+        <label for="vaccine-type">Select Vaccine Type</label>
+        <select id="vaccine-type" name="vaccine-type">
+            <option value="">Loading vaccine types...</option>
+        </select>
+        <label for="vaccine-name">Vaccine Name</label>
+        <input type="text" id="vaccine-name" name="vaccine-name" placeholder="Enter vaccine name" required>
+        <label for="notes">Notes</label>
+        <input type="text" id="notes" name="notes" placeholder="Enter notes or special information" required>
+        <button onclick="registerVaccine()">Register Vaccine</button>
+        <div id="result-section" class="result-section" style="display:none;">
+            <h2>Vaccine Registered Successfully</h2>
+            <p id="result-message"></p>
+        </div>
+    </div>
+
+    <script>
+        function loadVaccineTypes() {
+            const vaccineTypeSelect = document.getElementById('vaccine-type');
+            // Mock vaccine types
+            const vaccineTypes = [
+                { id: 1, name: "COVID-19" },
+                { id: 2, name: "Influenza" },
+                { id: 3, name: "Tetanus" }
+            ];
+
+            vaccineTypeSelect.innerHTML = "<option value=''>Select Vaccine Type</option>";
+            vaccineTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.id;
+                option.textContent = type.name;
+                vaccineTypeSelect.appendChild(option);
+            });
+        }
+
+        function registerVaccine() {
+            const vaccineType = document.getElementById('vaccine-type').value;
+            const vaccineName = document.getElementById('vaccine-name').value;
+            const notes = document.getElementById('notes').value;
+            const resultSection = document.getElementById('result-section');
+            const resultMessage = document.getElementById('result-message');
+
+            if (!vaccineType || !vaccineName || !notes) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Mock success message
+            resultMessage.textContent = `Vaccine Type: ${vaccineType}, Vaccine Name: ${vaccineName}, Notes: ${notes}`;
+            resultSection.style.display = "block";
+        }
+
+        window.onload = loadVaccineTypes;
+    </script>
+</body>
+</html>

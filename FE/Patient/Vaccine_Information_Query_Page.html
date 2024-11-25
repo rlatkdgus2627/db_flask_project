@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccine Information Query</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .query-form {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        .query-form h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .query-form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .query-form input, .query-form select, .query-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .query-form button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .query-form button:hover {
+            background: #45a049;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .result-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .result-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .result-section li {
+            margin-bottom: 5px;
+        }
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="query-form">
+        <h1>Vaccine Information Query</h1>
+        
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" placeholder="Enter your age" required>
+        
+        <button type="submit" onclick="queryVaccine()">Submit</button>
+        
+        <div id="result-section" class="result-section" style="display:none;">
+            <h2>Query Results</h2>
+            <ul id="vaccine-list"></ul>
+        </div>
+    </div>
+    
+    <script>
+        function queryVaccine() {
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+            const resultSection = document.getElementById('result-section');
+            const vaccineList = document.getElementById('vaccine-list');
+            
+            // Mock Data: Replace with actual logic or API integration
+            const vaccines = [
+                { name: "COVID-19 Vaccine", mandatory: true, lastDate: "2022-01-01", cycleOverdue: true },
+                { name: "Flu Vaccine", mandatory: false, lastDate: null, cycleOverdue: false },
+                { name: "Tetanus", mandatory: true, lastDate: "2020-06-15", cycleOverdue: true },
+            ];
+            
+            vaccineList.innerHTML = "";
+            vaccines.forEach(vaccine => {
+                const li = document.createElement('li');
+                li.textContent = `${vaccine.name} - ${vaccine.mandatory ? "Mandatory" : "Optional"} - Last Date: ${vaccine.lastDate || "None"}`;
+                if (!vaccine.lastDate || vaccine.cycleOverdue) {
+                    const highlight = document.createElement('span');
+                    highlight.textContent = " - Vaccine Needed";
+                    highlight.classList.add('highlight');
+                    li.appendChild(highlight);
+                }
+                vaccineList.appendChild(li);
+            });
+            
+            resultSection.style.display = "block";
+        }
+    </script>
+</body>
+</html>
