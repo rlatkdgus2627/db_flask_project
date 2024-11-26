@@ -1,12 +1,39 @@
-from flask import Flask, render_template
+from flask import Flask, current_app, g
+from config import Config
+from database.db_helper import get_db, close_db
+from patient import patient_bp
+from doctor import doctor_bp
+from pharma import pharma_bp
+from admin import admin_bp
 
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-app = Flask(__name__)
+    # 데이터베이스 초기화
+    with app.app_context():
+        init_db()
 
-@app.route("/")
-def hello():
-    return "Hello World!"
+    # 데이터베이스 연결 및 종료 설정
+    app.teardown_appcontext(close_db)
 
+    # 블루프린트 등록
+    app.register_blueprint(patient_bp, url_prefix='/patient')
+    app.register_blueprint(doctor_bp, url_prefix='/doctor')
+    app.register_blueprint(pharma_bp, url_prefix='/pharma')
+    app.register_blueprint(admin_bp, url_prefix='/admin')
+
+    return app
+
+def init_db():
+    db = get_db()
+    with current_app.open_resource('database/schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
+    db.commit()
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run(debug=True)
 ## Render
 
 # Registration
