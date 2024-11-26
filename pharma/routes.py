@@ -1,7 +1,8 @@
-from flask import render_template, redirect, url_for, flash, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import pharma_bp
 from database.db_helper import get_db
+
+pharma_bp = Blueprint('pharma', __name__, url_prefix='/pharma')
 
 @pharma_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -80,12 +81,12 @@ def add_vaccine():
         flash('로그인이 필요합니다.')
         return redirect(url_for('pharma.login'))
 
+    db = get_db()
+
     if request.method == 'POST':
         vaccine_type_id = request.form['vaccine_type_id']
         vaccine_name = request.form['vaccine_name']
         notes = request.form['notes']
-
-        db = get_db()
 
         # 백신 종류 확인
         vaccine_type = db.execute(
@@ -107,7 +108,6 @@ def add_vaccine():
         flash('백신 정보가 등록되었습니다.')
         return redirect(url_for('pharma.dashboard'))
 
-    db = get_db()
     # 모든 백신 종류(ID, 병명) 조회
     vaccine_types = db.execute(
         'SELECT id, disease_name FROM vaccine_type'

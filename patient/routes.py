@@ -1,7 +1,8 @@
-from flask import render_template, redirect, url_for, flash, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import patient_bp
 from database.db_helper import get_db
+
+patient_bp = Blueprint('patient', __name__, url_prefix='/patient')
 
 @patient_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -76,3 +77,107 @@ def dashboard():
 
     # 대시보드 로직 구현
     return render_template('patient/dashboard.html')
+
+# 백신 접종 정보 조회
+@patient_bp.route('/vaccination_status')
+def vaccination_status():
+    if 'user_id' not in session or session.get('user_type') != 'patient':
+        flash('로그인이 필요합니다.')
+        return redirect(url_for('patient.login'))
+
+    db = get_db()
+
+    # 환자 정보 가져오기
+    patient = db.execute(
+        'SELECT * FROM patient WHERE id = ?',
+        (session['user_id'],)
+    ).fetchone()
+
+    if patient is None:
+        flash('환자 정보를 찾을 수 없습니다.')
+        return redirect(url_for('patient.login'))
+
+    # 나이 계산
+    from datetime import datetime, timedelta
+    today = datetime.today()
+    birthday = datetime.strptime(patient['birthday'], '%Y-%m-%d')
+    age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
+    gender = patient['gender']
+
+    # 환자가 맞아야 할 모든 백신 종류 조회
+    vaccine_types = db.execute(
+        '''
+        SELECT vt.*, v.vaccination_date
+        FROM vaccine_type vt
+        LEFT JOIN (
+            SELECT vaccination.vaccine_id, vaccination.vaccination_date
+            FROM vaccination
+            JOIN vaccine ON vaccination.vaccine_id = vaccine.id
+            WHERE vaccination.patient_id = ?
+        ) v ON vt.id = v.vaccine_id
+        WHERE (vt.gender IS NULL OR vt.gender = ?)
+        AND (vt.minimum_age IS NULL OR vt.minimum_age <= ?)
+        ''',
+        (patient['id'], gender, age)
+    ).fetchall()
+
+    vaccination_info = []
+    for vt in vaccine_types:
+        last_date = vt['vaccination_date']
+        needs_vaccination = False
+        if last_date is None:
+            needs_vaccination = True
+        else:
+            last_date_dt = datetime.strptime(last_date, '%Y-%m-%d')
+            interval = vt['vaccination_interval']  # 일 수로 저장되었다고 가정
+            if interval:
+                next_due_date = last_date_dt + timedelta(days=interval)
+                if today >= next_due_date:
+                    needs_vaccination = True
+            else:
+                needs_vaccination = False  # 접종 주기가 없으면 1회 접종으로 간주
+
+        vaccination_info.append({
+            'disease_name': vt['disease_name'],
+            'is_mandatory': vt['is_mandatory'],
+            'last_vaccination_date': last_date,
+            'needs_vaccination': needs_vaccination
+        })
+
+    return render_template('patient/vaccination_status.html', vaccination_info=vaccination_info)
+
+# 백신 정보 조회
+@patient_bp.route('/vaccine_info', methods=['GET', 'POST'])
+def vaccine_info():
+    if 'user_id' not in session or session.get('user_type') != 'patient':
+        flash('로그인이 필요합니다.')
+        return redirect(url_for('patient.login'))
+
+    db = get_db()
+
+    if request.method == 'POST':
+        disease_name = request.form.get('disease_name')
+        if not disease_name:
+            flash('병명을 선택해주세요.')
+            return redirect(url_for('patient.vaccine_info'))
+
+        # 선택된 병명에 따른 백신 리스트 조회
+        vaccines = db.execute(
+            '''
+            SELECT v.vaccine_name, pc.company_name, v.notes
+            FROM vaccine v
+            JOIN pharmaceutical_company pc ON v.company_id = pc.id
+            JOIN vaccine_type vt ON v.vaccine_type_id = vt.id
+            WHERE vt.disease_name = ?
+            ''',
+            (disease_name,)
+        ).fetchall()
+
+        return render_template('patient/vaccine_list.html', vaccines=vaccines, disease_name=disease_name)
+    else:
+        # 모든 백신 종류(ID, 병명) 조회
+        vaccine_types = db.execute(
+            'SELECT id, disease_name FROM vaccine_type'
+        ).fetchall()
+
+        return render_template('patient/vaccine_info.html', vaccine_types=vaccine_types)
