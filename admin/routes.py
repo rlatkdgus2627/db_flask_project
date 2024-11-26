@@ -1,7 +1,8 @@
-from flask import render_template, redirect, url_for, flash, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import admin_bp
 from database.db_helper import get_db
+
+admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 @admin_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -82,9 +83,9 @@ def add_vaccine_type():
     if request.method == 'POST':
         disease_name = request.form['disease_name']
         is_mandatory = request.form.get('is_mandatory', '0')  # 체크박스
-        gender = request.form['gender']
-        minimum_age = request.form['minimum_age']
-        vaccination_interval = request.form['vaccination_interval']
+        gender = request.form['gender'] or None
+        minimum_age = request.form['minimum_age'] or None
+        vaccination_interval = request.form['vaccination_interval'] or None
 
         db = get_db()
 
@@ -92,7 +93,7 @@ def add_vaccine_type():
         db.execute(
             'INSERT INTO vaccine_type (disease_name, is_mandatory, gender, minimum_age, vaccination_interval) '
             'VALUES (?, ?, ?, ?, ?)',
-            (disease_name, int(is_mandatory), gender or None, minimum_age or None, vaccination_interval or None)
+            (disease_name, int(is_mandatory), gender, minimum_age, vaccination_interval)
         )
         db.commit()
         flash('백신 종류가 추가되었습니다.')
