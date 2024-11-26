@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccine Details Query</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .section {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .section h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .section label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .section select, .section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .section button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .section button:hover {
+            background: #45a049;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .result-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .result-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .result-section li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <h1>Vaccine Details Query</h1>
+        <button onclick="fetchAllVaccines()">Fetch All Vaccines</button>
+        <div id="all-vaccines" class="result-section" style="display:none;">
+            <h2>All Vaccines</h2>
+            <ul id="vaccine-id-list"></ul>
+        </div>
+        <label for="vaccine-id">Select Disease</label>
+        <select id="vaccine-id" name="vaccine-id" disabled>
+        </select>
+        <button onclick="queryVaccineDetails()" disabled id="query-details-button">Fetch Vaccine Details</button>
+        <div id="vaccine-detail-results" class="result-section" style="display:none;">
+            <h2>Vaccine Details</h2>
+            <ul id="vaccine-detail-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        function fetchAllVaccines() {
+            const allVaccinesSection = document.getElementById('all-vaccines');
+            const vaccineIdList = document.getElementById('vaccine-id-list');
+            const vaccineIdSelect = document.getElementById('vaccine-id');
+            const queryDetailsButton = document.getElementById('query-details-button');
+
+            // Mock data for all vaccines
+            const vaccines = [
+                { id: 1, disease: "COVID-19" },
+                { id: 2, disease: "Influenza" },
+                { id: 3, disease: "Tetanus" },
+            ];
+
+            vaccineIdList.innerHTML = "";
+            vaccineIdSelect.innerHTML = "<option value=''>Select Disease</option>";
+
+            vaccines.forEach(vaccine => {
+                const li = document.createElement('li');
+                li.textContent = `ID: ${vaccine.id}, Disease: ${vaccine.disease}`;
+                vaccineIdList.appendChild(li);
+
+                const option = document.createElement('option');
+                option.value = vaccine.id;
+                option.textContent = vaccine.disease;
+                vaccineIdSelect.appendChild(option);
+            });
+
+            vaccineIdSelect.disabled = false;
+            queryDetailsButton.disabled = false;
+            allVaccinesSection.style.display = "block";
+        }
+
+        function queryVaccineDetails() {
+            const selectedVaccineId = document.getElementById('vaccine-id').value;
+            const vaccineDetailResults = document.getElementById('vaccine-detail-results');
+            const vaccineDetailList = document.getElementById('vaccine-detail-list');
+
+            // Mock data for vaccine details based on disease ID
+            const vaccineDetails = {
+                1: [
+                    { manufacturer: "Pfizer", name: "Comirnaty", notes: "Requires 2 doses." },
+                    { manufacturer: "Moderna", name: "Spikevax", notes: "Requires 2 doses." },
+                ],
+                2: [
+                    { manufacturer: "Sanofi", name: "Fluzone", notes: "Annual shot." },
+                ],
+                3: [
+                    { manufacturer: "GSK", name: "Boostrix", notes: "Every 10 years." },
+                ],
+            };
+
+            const details = vaccineDetails[selectedVaccineId] || [];
+            vaccineDetailList.innerHTML = "";
+
+            details.forEach(detail => {
+                const li = document.createElement('li');
+                li.textContent = `Manufacturer: ${detail.manufacturer}, Vaccine: ${detail.name}, Notes: ${detail.notes}`;
+                vaccineDetailList.appendChild(li);
+            });
+
+            vaccineDetailResults.style.display = selectedVaccineId ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
