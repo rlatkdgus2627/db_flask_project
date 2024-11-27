@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Welcome to the Vaccination Management System</h2>
+    <p>This system helps patients, doctors, pharmaceutical companies, and administrators manage vaccination information.</p>
+    <div>
+        <a href="{{ url_for('patient.register') }}">Patient Registration</a><br>
+        <a href="{{ url_for('doctor.register') }}">Doctor Registration</a><br>
+        <a href="{{ url_for('pharma.register') }}">Pharmaceutical Company Registration</a><br>
+        <a href="{{ url_for('admin.register') }}">Administrator Registration</a><br>
+    </div>
+{% endblock %}

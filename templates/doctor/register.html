@@ -1,0 +1,30 @@
+<!-- templates/doctor/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration</title>
+</head>
+<body>
+    <h1>Register as a Doctor</h1>
+    <form action="/doctor/register" method="post">
+        <label for="doctor_license_number">License Number:</label>
+        <input type="text" id="doctor_license_number" name="doctor_license_number" required><br>
+
+        <label for="hospital_name">Hospital Name:</label>
+        <input type="text" id="hospital_name" name="hospital_name" required><br>
+
+        <label for="doctor_password">Password:</label>
+        <input type="password" id="doctor_password" name="doctor_password" required><br>
+
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required><br>
+
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" required><br>
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

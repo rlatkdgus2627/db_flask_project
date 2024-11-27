@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from database.db_helper import get_db
-
-pharma_bp = Blueprint('pharma', __name__, url_prefix='/pharma')
+from . import pharma_bp
 
 @pharma_bp.route('/register', methods=['GET', 'POST'])
 def register():

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccine Information</title>
+</head>
+<body>
+    <h1>Vaccine Information</h1>
+    <form action="/patient/vaccine_info" method="post">
+        <label for="disease_name">Select Disease:</label>
+        <select id="disease_name" name="disease_name" required>
+            {% for vaccine_type in vaccine_types %}
+            <option value="{{ vaccine_type.disease_name }}">{{ vaccine_type.disease_name }}</option>
+            {% endfor %}
+        </select><br>
+        <button type="submit">View Vaccines</button>
+    </form>
+    <a href="/patient/dashboard">Back to Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Registration</title>
+</head>
+<body>
+    <h1>Register as an Administrator</h1>
+    <form action="/admin/register" method="post">
+        <label for="admin_username">Username:</label>
+        <input type="text" id="admin_username" name="admin_username" required><br>
+
+        <label for="admin_password">Password:</label>
+        <input type="password" id="admin_password" name="admin_password" required><br>
+
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required><br>
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

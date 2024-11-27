@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Login</title>
+</head>
+<body>
+    <h1>Patient Login</h1>
+    <form action="/patient/login" method="post">
+        <label for="patient_username">Username:</label>
+        <input type="text" id="patient_username" name="patient_username" required><br>
+
+        <label for="patient_password">Password:</label>
+        <input type="password" id="patient_password" name="patient_password" required><br>
+
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
+
+<!-- templates/patient/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to the Patient Dashboard</h1>
+    <p>Here you can view your vaccination status, personal information, and more.</p>
+    <a href="/patient/vaccination_status">View Vaccination Status</a><br>
+    <a href="/patient/vaccine_info">View Vaccine Information</a><br>
+    <a href="/logout">Logout</a>
+</body>
+</html>

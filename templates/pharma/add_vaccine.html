@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vaccine Information</title>
+</head>
+<body>
+    <h1>Add Vaccine Information</h1>
+    <form action="/pharma/add_vaccine" method="post">
+        <label for="vaccine_type_id">Select Vaccine Type:</label>
+        <select id="vaccine_type_id" name="vaccine_type_id" required>
+            {% for vaccine_type in vaccine_types %}
+            <option value="{{ vaccine_type.id }}">{{ vaccine_type.disease_name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="vaccine_name">Vaccine Name:</label>
+        <input type="text" id="vaccine_name" name="vaccine_name" required><br>
+
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes"></textarea><br>
+
+        <button type="submit">Add Vaccine</button>
+    </form>
+    <a href="/pharma/dashboard">Back to Dashboard</a>
+</body>
+</html>

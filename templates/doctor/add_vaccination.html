@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vaccination Record</title>
+</head>
+<body>
+    <h1>Add Vaccination Record</h1>
+    <form action="/doctor/add_vaccination" method="post">
+        <label for="vaccine_id">Select Vaccine:</label>
+        <select id="vaccine_id" name="vaccine_id" required>
+            {% for vaccine_type in vaccine_types %}
+            <option value="{{ vaccine_type.id }}">{{ vaccine_type.disease_name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="patient_name">Patient Name:</label>
+        <input type="text" id="patient_name" name="patient_name" required><br>
+
+        <label for="resident_registration_number">Resident Registration Number:</label>
+        <input type="text" id="resident_registration_number" name="resident_registration_number" required><br>
+
+        <label for="vaccination_date">Vaccination Date:</label>
+        <input type="date" id="vaccination_date" name="vaccination_date" required><br>
+
+        <button type="submit">Add Vaccination</button>
+    </form>
+    <a href="/doctor/dashboard">Back to Dashboard</a>
+</body>
+</html>

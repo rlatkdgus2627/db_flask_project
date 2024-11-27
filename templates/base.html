@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Vaccination Management System{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Vaccination Management System</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            {% if 'user_type' in session %}
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="{{ url_for('patient.login') }}">Patient Login</a>
+                <a href="{{ url_for('doctor.login') }}">Doctor Login</a>
+                <a href="{{ url_for('pharma.login') }}">Pharmaceutical Company Login</a>
+                <a href="{{ url_for('admin.login') }}">Admin Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Vaccination Management System</p>
+    </footer>
+</body>
+</html>

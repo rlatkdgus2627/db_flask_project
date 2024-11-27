@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ disease_name }} Vaccines</title>
+</head>
+<body>
+    <h1>Vaccines for {{ disease_name }}</h1>
+    <table border="1">
+        <tr>
+            <th>Vaccine Name</th>
+            <th>Manufacturer</th>
+            <th>Notes</th>
+        </tr>
+        {% for vaccine in vaccines %}
+        <tr>
+            <td>{{ vaccine.vaccine_name }}</td>
+            <td>{{ vaccine.company_name }}</td>
+            <td>{{ vaccine.notes }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/patient/vaccine_info">Back to Vaccine Info</a><br>
+    <a href="/patient/dashboard">Back to Dashboard</a>
+</body>
+</html>

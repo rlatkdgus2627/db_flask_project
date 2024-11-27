@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccination Status</title>
+</head>
+<body>
+    <h1>Your Vaccination Status</h1>
+    <table border="1">
+        <tr>
+            <th>Disease Name</th>
+            <th>Mandatory</th>
+            <th>Last Vaccination Date</th>
+            <th>Needs Vaccination</th>
+        </tr>
+        {% for vaccine in vaccination_info %}
+        <tr>
+            <td>{{ vaccine.disease_name }}</td>
+            <td>{{ "Yes" if vaccine.is_mandatory else "No" }}</td>
+            <td>{{ vaccine.last_vaccination_date if vaccine.last_vaccination_date else "N/A" }}</td>
+            <td>{{ "Yes" if vaccine.needs_vaccination else "No" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/patient/dashboard">Back to Dashboard</a>
+</body>
+</html>

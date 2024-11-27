@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmaceutical Company Registration</title>
+</head>
+<body>
+    <h1>Register as a Pharmaceutical Company</h1>
+    <form action="/pharma/register" method="post">
+        <label for="business_registration_number">Business Registration Number:</label>
+        <input type="text" id="business_registration_number" name="business_registration_number" required><br>
+
+        <label for="company_name">Company Name:</label>
+        <input type="text" id="company_name" name="company_name" required><br>
+
+        <label for="company_password">Password:</label>
+        <input type="password" id="company_password" name="company_password" required><br>
+
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required><br>
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
