@@ -59,7 +59,7 @@
     </style>
 </head>
 <body>
-    <form class="login-form">
+    <form class="login-form" id="login-form">
         <h1>Multi-User Login</h1>
         
         <label for="user-type">Select User Type</label>
@@ -78,5 +78,57 @@
         
         <button type="submit">Login</button>
     </form>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+        
+            const userType = document.getElementById('user-type').value;
+            const userId = document.getElementById('user-id').value;
+            const password = document.getElementById('password').value;
+        
+            let data = {
+                'user-type': userType,
+                'user-id': userId,
+                'password': password
+            };
+        
+            console.log('Data to send:', data);
+        
+            try {
+                const response = await fetch('/login_json', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+        
+                const result = await response.json();
+                if (result.status == 'success') {
+                    console.log('Success:', result);
+                    alert('Login successful!');
+                    if (result.user_type == 'doctor') {
+                        window.location.href = '/registration_doctor';
+                    }
+                    else if (result.user_type == 'patient') {
+                        window.location.href = '/registration_patient';
+                    }
+                    else if (result.user_type == 'admin') {
+                        window.location.href = '/registration_admin';
+                    }
+                    else if (result.user_type == 'pharma') {
+                        window.location.href = '/registration_pharm';
+                    }
+                }
+                else {
+                    console.error('Error:', result.message);
+                    alert('Failed to login: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                alert('An error occurred while sending data to the server.');
+            }
+        });
+    </script>
 </body>
 </html>
