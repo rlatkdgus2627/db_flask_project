@@ -99,7 +99,7 @@ def vaccination_status():
     # 나이 계산
     from datetime import datetime, timedelta
     today = datetime.today()
-    birthday = datetime.strptime(patient['birthday'], '%Y-%m-%d')
+    birthday = patient['birthday']
     age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
     gender = patient['gender']
 

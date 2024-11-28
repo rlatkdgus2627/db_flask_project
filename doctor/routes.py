@@ -166,4 +166,4 @@ def view_vaccination():
 
         return render_template('doctor/view_vaccination.html', records=records, patient=patient)
 
-    return render_template('doctor/view_vaccination.html')
+    return render_template('doctor/view_vaccination.html', records=[], patient=None)
