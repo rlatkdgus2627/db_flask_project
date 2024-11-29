@@ -1,11 +1,14 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from database.db_helper import get_db
-
-pharma_bp = Blueprint('pharma', __name__, url_prefix='/pharma')
+from . import pharma_bp
 
 @pharma_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'pharma':
+        return redirect(url_for('pharma.dashboard'))
+
     if request.method == 'POST':
         business_registration_number = request.form['business_registration_number']
         company_name = request.form['company_name']
@@ -42,6 +45,9 @@ def register():
 
 @pharma_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'pharma':
+        return redirect(url_for('pharma.dashboard'))
     if request.method == 'POST':
         business_registration_number = request.form['business_registration_number']
         company_password = request.form['company_password']
@@ -59,6 +65,7 @@ def login():
         # 로그인 성공
         session.clear()
         session['user_id'] = company['id']
+        session['user_username'] = company['company_name']
         session['user_type'] = 'pharma'
         flash('로그인 성공')
         return redirect(url_for('pharma.dashboard'))
@@ -70,7 +77,6 @@ def dashboard():
     if 'user_id' not in session or session.get('user_type') != 'pharma':
         flash('로그인이 필요합니다.')
         return redirect(url_for('pharma.login'))
-
     # 대시보드 로직 구현
     return render_template('pharma/dashboard.html')
 

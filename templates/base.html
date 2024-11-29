@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}백신 관리 시스템{% endblock %}</title>
+    <style>
+        /* Existing styles remain unchanged */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fc;
+            color: #333333;
+        }
+        header {
+            background-color: #1f3b73;
+            padding: 20px 0;
+            position: relative;
+        }
+        header h1 {
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            font-size: 36px;
+            font-weight: normal;
+        }
+        main {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .intro {
+            background-color: #ffffff;
+            padding: 20px 20px 20px 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        .intro h2 {
+            color: #1f3b73;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .intro p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555555;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 900px;
+            gap: 50px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 200px;
+        }
+        .dropbtn {
+            width: 100%;
+            padding: 15px;
+            color: #ffffff;
+            background-color: #1f3b73;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .dropbtn:hover {
+            background-color: #3c589b;
+            transform: scale(1.05);
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 200px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .dropdown-content a {
+            color: #1f3b73;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        .dropdown-content a:hover {
+            background-color: #f4f7fc;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            Vaccine Management System
+        </h1>
+    </header>
+
+    <main>
+        <!-- Welcome Message -->
+        <img src="{{ url_for('static', filename='vaccineIcon.svg') }}" alt="Icon" width="210" height="210">
+        <div class="intro">
+            <h2>Welcome to the Vaccination Management System.</h2>
+            <p>This system helps patients, doctors, pharmaceutical companies, and administrators manage vaccination information.</p>
+        </div>
+
+        <!-- Button Container -->
+        <div class="button-container">
+            <!-- Registration Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Registration</button>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('patient.register') }}">Patient Registration</a>
+                    <a href="{{ url_for('doctor.register') }}">Doctor Registration</a>
+                    <a href="{{ url_for('pharma.register') }}">Pharmaceutical Company Registration</a>
+                    <a href="{{ url_for('admin.register') }}">Administrator Registration</a>
+                </div>
+            </div>
+
+            <!-- Login Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Login</button>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('patient.login') }}">Patient Login</a>
+                    <a href="{{ url_for('doctor.login') }}">Doctor Login</a>
+                    <a href="{{ url_for('pharma.login') }}">Pharmaceutical Company Login</a>
+                    <a href="{{ url_for('admin.login') }}">Administrator Login</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

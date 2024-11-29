@@ -1,11 +1,14 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from database.db_helper import get_db
-
-admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
+from . import admin_bp
 
 @admin_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'admin':
+        return redirect(url_for('admin.dashboard'))
+
     if request.method == 'POST':
         admin_username = request.form['admin_username']
         admin_password = request.form['admin_password']
@@ -41,6 +44,10 @@ def register():
 
 @admin_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'admin':
+        return redirect(url_for('admin.dashboard'))
+
     if request.method == 'POST':
         admin_username = request.form['admin_username']
         admin_password = request.form['admin_password']
@@ -58,6 +65,7 @@ def login():
         # 로그인 성공
         session.clear()
         session['user_id'] = admin['id']
+        session['user_username'] = admin['admin_username']
         session['user_type'] = 'admin'
         flash('로그인 성공')
         return redirect(url_for('admin.dashboard'))

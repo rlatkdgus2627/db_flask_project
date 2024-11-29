@@ -1,11 +1,14 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from database.db_helper import get_db
-
-patient_bp = Blueprint('patient', __name__, url_prefix='/patient')
+from . import patient_bp
 
 @patient_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'patient':
+        return redirect(url_for('patient.dashboard'))
+
     if request.method == 'POST':
         patient_username = request.form['patient_username']
         patient_password = request.form['patient_password']
@@ -46,6 +49,10 @@ def register():
 
 @patient_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'patient':
+        return redirect(url_for('patient.dashboard'))
+
     if request.method == 'POST':
         patient_username = request.form['patient_username']
         patient_password = request.form['patient_password']
@@ -63,6 +70,7 @@ def login():
         # 로그인 성공
         session.clear()
         session['user_id'] = user['id']
+        session['user_username'] = user['patient_name']
         session['user_type'] = 'patient'
         flash('로그인 성공')
         return redirect(url_for('patient.dashboard'))
@@ -100,7 +108,7 @@ def vaccination_status():
     # 나이 계산
     from datetime import datetime, timedelta
     today = datetime.today()
-    birthday = datetime.strptime(patient['birthday'], '%Y-%m-%d')
+    birthday = patient['birthday']
     age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
     gender = patient['gender']
 
@@ -128,7 +136,7 @@ def vaccination_status():
         if last_date is None:
             needs_vaccination = True
         else:
-            last_date_dt = datetime.strptime(last_date, '%Y-%m-%d')
+            last_date_dt = datetime.strptime(last_date.strftime('%Y-%m-%d'), '%Y-%m-%d')
             interval = vt['vaccination_interval']  # 일 수로 저장되었다고 가정
             if interval:
                 next_due_date = last_date_dt + timedelta(days=interval)
