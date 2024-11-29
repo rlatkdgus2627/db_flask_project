@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 from database.db_helper import get_db
 from . import doctor_bp
@@ -99,16 +99,6 @@ def add_vaccination():
             flash('해당 환자를 찾을 수 없습니다.')
             return redirect(url_for('doctor.add_vaccination'))
 
-        # 백신 정보 확인
-        vaccine = db.execute(
-            'SELECT * FROM vaccine WHERE id = ?',
-            (vaccine_id,)
-        ).fetchone()
-
-        if vaccine is None:
-            flash('선택한 백신이 존재하지 않습니다.')
-            return redirect(url_for('doctor.add_vaccination'))
-
         # 접종 정보 등록
         db.execute(
             'INSERT INTO vaccination (vaccine_id, patient_id, vaccination_date) '
@@ -126,6 +116,23 @@ def add_vaccination():
         ).fetchall()
 
         return render_template('doctor/add_vaccination.html', vaccine_types=vaccine_types)
+
+# 백신 증상에 따른 백신 조회
+@doctor_bp.route('/get_vaccines/<int:vaccine_type_id>')
+def get_vaccines(vaccine_type_id):
+    if 'user_id' not in session or session.get('user_type') != 'doctor':
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    db = get_db()
+    vaccines = db.execute(
+        'SELECT id, vaccine_name FROM vaccine WHERE vaccine_type_id = ?',
+        (vaccine_type_id,)
+    ).fetchall()
+    vaccines_list = [{'id': vaccine['id'], 'vaccine_name': vaccine['vaccine_name']} for vaccine in vaccines]
+
+    response = make_response(jsonify(vaccines_list))
+    response.headers['Cache-Control'] = 'no-store'
+    return response
 
 # 접종 이력 조회
 @doctor_bp.route('/view_vaccination', methods=['GET', 'POST'])

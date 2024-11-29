@@ -83,18 +83,58 @@
             transform: scale(1.02);
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const vaccineTypeSelect = document.getElementById('vaccine_type_id');
+            const vaccineSelect = document.getElementById('vaccine_id');
+
+            vaccineTypeSelect.addEventListener('change', function() {
+                const vaccineTypeId = this.value;
+                if (vaccineTypeId) {
+                    axios.get(`/doctor/get_vaccines/${vaccineTypeId}`)
+                        .then(function(response) {
+                            const data = response.data;
+                            vaccineSelect.innerHTML = '<option value="" disabled selected>Select Vaccine</option>';
+                            data.forEach(function(item) {
+                                const option = document.createElement('option');
+                                option.value = item.id;
+                                option.textContent = item.vaccine_name;
+                                vaccineSelect.appendChild(option);
+                            });
+                        })
+                        .catch(function(error) {
+                            alert('백신 정보를 가져오는데 오류가 발생했습니다.');
+                            console.error(error);
+                        });
+                } else {
+                    vaccineSelect.innerHTML = '<option value="">Select Vaccine</option>';
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>Add Vaccination Record</h1>
         <form action="/doctor/add_vaccination" method="post">
-            <label for="vaccine_id">Select Vaccine:</label>
-            <select id="vaccine_id" name="vaccine_id" required>
+            <!-- 백신 종류 선택 -->
+            <label for="vaccine_type_id">Select Vaccine Type:</label>
+            <select id="vaccine_type_id" name="vaccine_type_id" required>
+                <option value="" disabled selected>Select Vaccine Type</option>
                 {% for vaccine_type in vaccine_types %}
                 <option value="{{ vaccine_type.id }}">{{ vaccine_type.disease_name }}</option>
                 {% endfor %}
             </select>
 
+            <!-- 백신 선택 -->
+            <label for="vaccine_id">Select Vaccine:</label>
+            <select id="vaccine_id" name="vaccine_id" required>
+                <option value="" disabled selected>Select Vaccine</option>
+                <!-- 백신 종류 선택 시 동적으로 옵션 추가 -->
+            </select>
+
+            <!-- 환자 정보 입력 -->
             <label for="patient_name">Patient Name:</label>
             <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient name" required>
 

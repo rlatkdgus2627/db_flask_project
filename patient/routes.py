@@ -127,7 +127,7 @@ def vaccination_status():
         if last_date is None:
             needs_vaccination = True
         else:
-            last_date_dt = datetime.strptime(last_date, '%Y-%m-%d')
+            last_date_dt = datetime.strptime(last_date.strftime('%Y-%m-%d'), '%Y-%m-%d')
             interval = vt['vaccination_interval']  # 일 수로 저장되었다고 가정
             if interval:
                 next_due_date = last_date_dt + timedelta(days=interval)
