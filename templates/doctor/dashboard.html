@@ -4,12 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #1f3b73;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        p {
+            text-align: center;
+            color: #555555;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #1f3b73;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn:hover {
+            background-color: #3c589b;
+            transform: scale(1.02);
+        }
+        .btn.logout {
+            background-color: #d9534f;
+        }
+        .btn.logout:hover {
+            background-color: #c9302c;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Doctor Dashboard</h1>
-    <p>Here you can add vaccinations, view patient records, and more.</p>
-    <a href="/doctor/add_vaccination">Add Vaccination Record</a><br>
-    <a href="/doctor/view_vaccination">View Vaccination Records</a><br>
-    <a href="/logout">Logout</a>
+    <div class="container">
+        <h1>Welcome to the Doctor Dashboard</h1>
+        <p>Here you can add vaccinations, view patient records, and more.</p>
+        <div class="button-group">
+            <a href="/doctor/add_vaccination" class="btn">Add Vaccination Record</a>
+            <a href="/doctor/view_vaccination" class="btn">View Vaccination Records</a>
+            <a href="/logout" class="btn logout">Logout</a>
+        </div>
+    </div>
 </body>
 </html>

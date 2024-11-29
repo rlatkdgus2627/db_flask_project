@@ -4,17 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharmaceutical Company Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 400px; /* 로그인 페이지에 적합한 크기 */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #1f3b73;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 14px;
+            color: #333333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #1f3b73;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #1f3b73;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #3c589b;
+            transform: scale(1.02);
+        }
+    </style>
 </head>
 <body>
-    <h1>Pharmaceutical Company Login</h1>
-    <form action="/pharma/login" method="post">
-        <label for="business_registration_number">Business Registration Number:</label>
-        <input type="text" id="business_registration_number" name="business_registration_number" required><br>
+    <div class="container">
+        <h1>Pharmaceutical Company Login</h1>
+        <form action="/pharma/login" method="post">
+            <label for="business_registration_number">Business Registration Number:</label>
+            <input type="text" id="business_registration_number" name="business_registration_number" placeholder="Enter your registration number" required>
 
-        <label for="company_password">Password:</label>
-        <input type="password" id="company_password" name="company_password" required><br>
+            <label for="company_password">Password:</label>
+            <input type="password" id="company_password" name="company_password" placeholder="Enter your password" required>
 
-        <button type="submit">Login</button>
-    </form>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>

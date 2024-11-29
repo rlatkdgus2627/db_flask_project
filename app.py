@@ -6,7 +6,20 @@ from doctor import doctor_bp
 from pharma import pharma_bp
 from admin import admin_bp
 from config import Config
+from dotenv import load_dotenv
+import os
 
+# .env 파일 로드
+load_dotenv(override=True)  # 기존 환경 변수 덮어쓰기
+
+# 환경 변수 가져오기
+SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
+
+# Flask 설정에 추가
+app = Flask(__name__)
+app.config['SECRET_KEY'] = SECRET_KEY
+
+print(SECRET_KEY)
 
 def init_db():
     db = get_db()
@@ -14,7 +27,6 @@ def init_db():
         db.executescript(f.read().decode('utf8'))
     db.commit()
 
-app = Flask(__name__)
 app.config.from_object(Config)
 
 # 데이터베이스 초기화

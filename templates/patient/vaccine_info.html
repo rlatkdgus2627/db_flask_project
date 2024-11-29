@@ -4,18 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vaccine Information</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #1f3b73;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-size: 14px;
+            color: #333333;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        select:focus {
+            border-color: #1f3b73;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #1f3b73;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #3c589b;
+            transform: scale(1.02);
+        }
+        .footer-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer-btn a {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #1f3b73;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .footer-btn a:hover {
+            background-color: #3c589b;
+            transform: scale(1.02);
+        }
+    </style>
 </head>
 <body>
-    <h1>Vaccine Information</h1>
-    <form action="/patient/vaccine_info" method="post">
-        <label for="disease_name">Select Disease:</label>
-        <select id="disease_name" name="disease_name" required>
-            {% for vaccine_type in vaccine_types %}
-            <option value="{{ vaccine_type.disease_name }}">{{ vaccine_type.disease_name }}</option>
-            {% endfor %}
-        </select><br>
-        <button type="submit">View Vaccines</button>
-    </form>
-    <a href="/patient/dashboard">Back to Dashboard</a>
+    <div class="container">
+        <h1>Vaccine Information</h1>
+        <form action="/patient/vaccine_info" method="post">
+            <label for="disease_name">Select Disease:</label>
+            <select id="disease_name" name="disease_name" required>
+                {% for vaccine_type in vaccine_types %}
+                <option value="{{ vaccine_type.disease_name }}">{{ vaccine_type.disease_name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">View Vaccines</button>
+        </form>
+        <div class="footer-btn">
+            <a href="/patient/dashboard">Back to Dashboard</a>
+        </div>
+    </div>
 </body>
 </html>

@@ -4,36 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Vaccination Records</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px; /* 왼쪽과 오른쪽 컨테이너 간격 */
+            flex-wrap: wrap; /* 작은 화면에서는 세로로 정렬 */
+        }
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1; /* 동일한 너비로 설정 */
+        }
+        h1, h2 {
+            text-align: center;
+            color: #1f3b73;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 14px;
+            color: #333333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #1f3b73;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #1f3b73;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #3c589b;
+            transform: scale(1.02);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px 15px;
+            border: 1px solid #cccccc;
+        }
+        th {
+            background-color: #1f3b73;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        td {
+            font-size: 14px;
+            color: #333333;
+            background-color: #f9f9f9;
+        }
+        td:nth-child(odd) {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-    <h1>View Vaccination Records</h1>
-    <form action="/doctor/view_vaccination" method="post">
-        <label for="patient_name">Patient Name:</label>
-        <input type="text" id="patient_name" name="patient_name" required><br>
+    <div class="container">
+        <h1>View Vaccination Records</h1>
+        <form action="/doctor/view_vaccination" method="post">
+            <label for="patient_name">Patient Name:</label>
+            <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient name" required>
 
-        <label for="resident_registration_number">Resident Registration Number:</label>
-        <input type="text" id="resident_registration_number" name="resident_registration_number" required><br>
+            <label for="resident_registration_number">Resident Registration Number:</label>
+            <input type="text" id="resident_registration_number" name="resident_registration_number" placeholder="Enter registration number" required>
 
-        <button type="submit">View Records</button>
-    </form>
+            <button type="submit">View Records</button>
+        </form>
+    </div>
 
-    {% if records is not none %}
-    <h2>Vaccination Records for {{ patient.patient_name }}</h2>
-    <table border="1">
-        <tr>
-            <th>Vaccination Date</th>
-            <th>Vaccine Name</th>
-            <th>Disease Name</th>
-        </tr>
-        {% for record in records %}
-        <tr>
-            <td>{{ record.vaccination_date }}</td>
-            <td>{{ record.vaccine_name }}</td>
-            <td>{{ record.disease_name }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
-    <a href="/doctor/dashboard">Back to Dashboard</a>
+    <div class="container">
+        <h2>Vaccination Records for {{ patient.patient_name }}</h2>
+        <table>
+            <tr>
+                <th>Vaccination Date</th>
+                <th>Vaccine Name</th>
+                <th>Disease Name</th>
+            </tr>
+            {% for record in records %}
+            <tr>
+                <td>{{ record.vaccination_date }}</td>
+                <td>{{ record.vaccine_name }}</td>
+                <td>{{ record.disease_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 </html>

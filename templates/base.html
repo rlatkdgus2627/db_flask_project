@@ -1,32 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Vaccination Management System{% endblock %}</title>
+    <title>{% block title %}백신 관리 시스템{% endblock %}</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fc; /* 전체 배경색 */
+            color: #333333;
+        }
+        header {
+            background-color: #1f3b73;
+            padding: 20px 0;
+        }
+        header h1 {
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            font-size: 36px;
+            font-weight: normal;
+        }
+        main {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .intro {
+            background-color: #ffffff; /* 흰색 배경 */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+            margin-bottom: 30px;
+            text-align: left; /* 왼쪽 정렬 */
+        }
+        .intro h2 {
+            color: #1f3b73;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .intro p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555555;
+        }
+        .button-group {
+            display: flex;
+            flex-direction: column; /* 세로 정렬 */
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            width: 100%; /* 버튼 너비 고정 */
+            max-width: 400px; /* 최대 너비 제한 */
+            padding: 15px;
+            color: #ffffff;
+            background-color: #1f3b73;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+            cursor: pointer;
+            margin: 0 auto; /* 버튼 중앙 정렬 */
+        }
+        .btn:hover {
+            background-color: #3c589b; /* 호버 시 색상 변화 */
+            transform: scale(1.05); /* 살짝 확대 */
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Vaccination Management System</h1>
-        <nav>
-            <a href="{{ url_for('index') }}">Home</a>
-            {% if 'user_type' in session %}
-                <a href="/logout">Logout</a>
-            {% else %}
-                <a href="{{ url_for('patient.login') }}">Patient Login</a>
-                <a href="{{ url_for('doctor.login') }}">Doctor Login</a>
-                <a href="{{ url_for('pharma.login') }}">Pharmaceutical Company Login</a>
-                <a href="{{ url_for('admin.login') }}">Admin Login</a>
-            {% endif %}
-        </nav>
+        <h1>Vaccine Management System</h1>
     </header>
 
     <main>
-        {% block content %}{% endblock %}
-    </main>
+        <div class="intro">
+            <h2>Welcome to the Vaccination Management System.</h2>
+            <p>This system helps patients, doctors, pharmaceutical companies, and administrators manage vaccination information.</p>
+        </div>
 
-    <footer>
-        <p>&copy; 2024 Vaccination Management System</p>
-    </footer>
+        <div class="button-group">
+            <a href="{{ url_for('patient.register') }}" class="btn">Patient Registration</a>
+            <a href="{{ url_for('doctor.register') }}" class="btn">Doctor Registration</a>
+            <a href="{{ url_for('pharma.register') }}" class="btn">Pharmaceutical Company Registration</a>
+            <a href="{{ url_for('admin.register') }}" class="btn">Administrator Registration</a>
+        </div>
+    </main>
 </body>
 </html>
