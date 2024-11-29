@@ -5,6 +5,10 @@ from . import pharma_bp
 
 @pharma_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'pharma':
+        return redirect(url_for('pharma.dashboard'))
+
     if request.method == 'POST':
         business_registration_number = request.form['business_registration_number']
         company_name = request.form['company_name']
@@ -41,6 +45,9 @@ def register():
 
 @pharma_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'pharma':
+        return redirect(url_for('pharma.dashboard'))
     if request.method == 'POST':
         business_registration_number = request.form['business_registration_number']
         company_password = request.form['company_password']

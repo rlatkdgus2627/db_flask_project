@@ -5,6 +5,10 @@ from . import admin_bp
 
 @admin_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'admin':
+        return redirect(url_for('admin.dashboard'))
+
     if request.method == 'POST':
         admin_username = request.form['admin_username']
         admin_password = request.form['admin_password']
@@ -40,6 +44,10 @@ def register():
 
 @admin_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'admin':
+        return redirect(url_for('admin.dashboard'))
+
     if request.method == 'POST':
         admin_username = request.form['admin_username']
         admin_password = request.form['admin_password']

@@ -5,6 +5,10 @@ from . import patient_bp
 
 @patient_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'patient':
+        return redirect(url_for('patient.dashboard'))
+
     if request.method == 'POST':
         patient_username = request.form['patient_username']
         patient_password = request.form['patient_password']
@@ -45,6 +49,10 @@ def register():
 
 @patient_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    # 이미 로그인된 경우 대시보드로 리다이렉트
+    if 'user_id' in session and session.get('user_type') == 'patient':
+        return redirect(url_for('patient.dashboard'))
+
     if request.method == 'POST':
         patient_username = request.form['patient_username']
         patient_password = request.form['patient_password']
