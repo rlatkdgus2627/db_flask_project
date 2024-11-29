@@ -4,16 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Vaccination Record</title>
-    <style>
+    <style>        
+        * {
+        box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7fc;
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             min-height: 100vh;
+        }
+        header {
+            background-color: #1f3b73;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        header div {
+            display: flex;
+            align-items: center;
+        }
+        header div span {
+            margin-right: 10px;
+        }
+        header button {
+            background-color: white;
+            color: #1f3b73;
+            border: 1px solid #1f3b73;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        header button:hover {
+            background-color: #e6e6e6;
+            transform: scale(1.05);
         }
         .container {
             background-color: #ffffff;
@@ -22,6 +61,7 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
         }
         h1 {
             text-align: center;
@@ -115,10 +155,21 @@
     </script>
 </head>
 <body>
+    <!-- 헤더 추가 -->
+    <header>
+        <h1>Vaccine Management System</h1>
+        <div>
+            <span>Welcome, {{ username }}!</span>
+            <button onclick="location.href='{{ url_for('logout') }}'">
+                Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- 콘텐츠 영역 -->
     <div class="container">
         <h1>Add Vaccination Record</h1>
         <form action="/doctor/add_vaccination" method="post">
-            <!-- 백신 종류 선택 -->
             <label for="vaccine_type_id">Select Vaccine Type:</label>
             <select id="vaccine_type_id" name="vaccine_type_id" required>
                 <option value="" disabled selected>Select Vaccine Type</option>
@@ -127,14 +178,11 @@
                 {% endfor %}
             </select>
 
-            <!-- 백신 선택 -->
             <label for="vaccine_id">Select Vaccine:</label>
             <select id="vaccine_id" name="vaccine_id" required>
                 <option value="" disabled selected>Select Vaccine</option>
-                <!-- 백신 종류 선택 시 동적으로 옵션 추가 -->
             </select>
 
-            <!-- 환자 정보 입력 -->
             <label for="patient_name">Patient Name:</label>
             <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient name" required>
 

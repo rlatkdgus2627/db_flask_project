@@ -5,25 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Vaccination Records</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7fc;
             margin: 0;
-            padding: 20px;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
+        }
+        header {
+            background-color: #1f3b73;
+            color: white;
+            padding: 20px 30px;
+            width: 100%;
+            box-sizing: border-box;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 20px; /* 왼쪽과 오른쪽 컨테이너 간격 */
-            flex-wrap: wrap; /* 작은 화면에서는 세로로 정렬 */
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        header div {
+            display: flex;
+            align-items: center;
+        }
+        header div span {
+            margin-right: 10px;
+        }
+        header button {
+            background-color: white;
+            color: #1f3b73;
+            border: 1px solid #1f3b73;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        header button:hover {
+            background-color: #e6e6e6;
+            transform: scale(1.05);
+        }
+        /* 컨텐츠를 가로로 배치하기 위한 래퍼 */
+        .content-wrapper {
+            display: flex;
+            width: 100%;
+            box-sizing: border-box;
         }
         .container {
             background-color: #ffffff;
-            width: 100%;
-            max-width: 500px;
+            flex: 1;
             padding: 30px;
+            box-sizing: border-box;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            flex: 1; /* 동일한 너비로 설정 */
+        }
+        /* 컨테이너 사이의 간격 설정 */
+        .content-wrapper > .container + .container {
+            margin-left: 20px;
         }
         h1, h2 {
             text-align: center;
@@ -91,35 +137,49 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>View Vaccination Records</h1>
-        <form action="/doctor/view_vaccination" method="post">
-            <label for="patient_name">Patient Name:</label>
-            <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient name" required>
+    <!-- 네비게이션 바 -->
+    <header>
+        <h1>Vaccine Management System</h1>
+        <div>
+            <span>Welcome, {{ username }}!</span>
+            <button onclick="location.href='{{ url_for('logout') }}'">Logout</button>
+        </div>
+    </header>
 
-            <label for="resident_registration_number">Resident Registration Number:</label>
-            <input type="text" id="resident_registration_number" name="resident_registration_number" placeholder="Enter registration number" required>
+    <!-- 컨텐츠 래퍼 -->
+    <div class="content-wrapper">
+        <!-- 왼쪽 컨텐츠 -->
+        <div class="container">
+            <h1>View Vaccination Records</h1>
+            <form action="/doctor/view_vaccination" method="post">
+                <label for="patient_name">Patient Name:</label>
+                <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient name" required>
 
-            <button type="submit">View Records</button>
-        </form>
-    </div>
+                <label for="resident_registration_number">Resident Registration Number:</label>
+                <input type="text" id="resident_registration_number" name="resident_registration_number" placeholder="Enter registration number" required>
 
-    <div class="container">
-        <h2>Vaccination Records for {{ patient.patient_name }}</h2>
-        <table>
-            <tr>
-                <th>Vaccination Date</th>
-                <th>Vaccine Name</th>
-                <th>Disease Name</th>
-            </tr>
-            {% for record in records %}
-            <tr>
-                <td>{{ record.vaccination_date }}</td>
-                <td>{{ record.vaccine_name }}</td>
-                <td>{{ record.disease_name }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+                <button type="submit">View Records</button>
+            </form>
+        </div>
+
+        <!-- 오른쪽 컨텐츠 -->
+        <div class="container">
+            <h2>Vaccination Records for {{ patient.patient_name }}</h2>
+            <table>
+                <tr>
+                    <th>Vaccination Date</th>
+                    <th>Vaccine Name</th>
+                    <th>Disease Name</th>
+                </tr>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.vaccination_date }}</td>
+                    <td>{{ record.vaccine_name }}</td>
+                    <td>{{ record.disease_name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 </body>
 </html>

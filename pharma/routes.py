@@ -76,9 +76,9 @@ def dashboard():
     if 'user_id' not in session or session.get('user_type') != 'pharma':
         flash('로그인이 필요합니다.')
         return redirect(url_for('pharma.login'))
-
+    username = session.get('user_id', 'Guest') ## 이부분 수정
     # 대시보드 로직 구현
-    return render_template('pharma/dashboard.html')
+    return render_template('pharma/dashboard.html', username=username)
 
 # 백신 정보 등록
 @pharma_bp.route('/add_vaccine', methods=['GET', 'POST'])

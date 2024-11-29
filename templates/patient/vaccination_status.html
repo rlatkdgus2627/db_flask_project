@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vaccination Status</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7fc;
@@ -14,6 +17,43 @@
             flex-direction: column;
             min-height: 100vh;
         }
+        header {
+            background-color: #1f3b73;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        header div {
+            display: flex;
+            align-items: center;
+        }
+        header div span {
+            margin-right: 10px;
+        }
+        header button {
+            background-color: white;
+            color: #1f3b73;
+            border: 1px solid #1f3b73;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        header button:hover {
+            background-color: #e6e6e6;
+            transform: scale(1.05);
+        }
         .container {
             background-color: #ffffff;
             width: 90%;
@@ -21,7 +61,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: auto;
+            margin: 20px auto;
         }
         h1 {
             text-align: center;
@@ -76,6 +116,16 @@
     </style>
 </head>
 <body>
+    <!-- 네비게이션 바 -->
+    <header>
+        <h1>Vaccine Management System</h1>
+        <div>
+            <span>Welcome, {{ username }}!</span>
+            <button onclick="location.href='{{ url_for('logout') }}'">Logout</button>
+        </div>
+    </header>
+
+    <!-- 컨텐츠 -->
     <div class="container">
         <h1>Your Vaccination Status</h1>
         <table>
