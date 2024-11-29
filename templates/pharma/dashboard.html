@@ -30,6 +30,7 @@
         }
         header h1 {
             margin: 0;
+            color: white;
             font-size: 24px;
         }
         header div {
@@ -108,7 +109,7 @@
     <header>
         <h1>Vaccine Management System</h1>
         <div>
-            <span>Welcome, {{ username }}!</span>
+            <span>Welcome, {{ session['user_username'] }}!</span>
             <button onclick="location.href='{{ url_for('logout') }}'">
                 Logout
             </button>

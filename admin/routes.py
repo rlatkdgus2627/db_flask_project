@@ -65,6 +65,7 @@ def login():
         # 로그인 성공
         session.clear()
         session['user_id'] = admin['id']
+        session['user_username'] = admin['admin_username']
         session['user_type'] = 'admin'
         flash('로그인 성공')
         return redirect(url_for('admin.dashboard'))

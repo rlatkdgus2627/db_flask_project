@@ -70,6 +70,7 @@ def login():
         # 로그인 성공
         session.clear()
         session['user_id'] = user['id']
+        session['user_username'] = user['patient_name']
         session['user_type'] = 'patient'
         flash('로그인 성공')
         return redirect(url_for('patient.dashboard'))
