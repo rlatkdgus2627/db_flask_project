@@ -21,7 +21,7 @@ Flask를 이용한 백신 접종 관리 시스템
 
 - `python 3.11.9`
 - **IDE** : Pycharm
-- **Framework** : Flask(3.11.9)
+- **Framework** : Flask(3.1.0)
 - **Database** : SQLite
 
 ## 💾 필수 설치 패키지 및 설정
