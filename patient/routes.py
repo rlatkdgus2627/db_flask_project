@@ -118,11 +118,12 @@ def vaccination_status():
         SELECT vt.*, v.vaccination_date
         FROM vaccine_type vt
         LEFT JOIN (
-            SELECT vaccination.vaccine_id, vaccination.vaccination_date
+            SELECT vaccine.vaccine_type_id, MAX(vaccination.vaccination_date) as vaccination_date
             FROM vaccination
             JOIN vaccine ON vaccination.vaccine_id = vaccine.id
             WHERE vaccination.patient_id = ?
-        ) v ON vt.id = v.vaccine_id
+            GROUP BY vaccine.vaccine_type_id
+        ) v ON vt.id = v.vaccine_type_id
         WHERE (vt.gender IS NULL OR vt.gender = ?)
         AND (vt.minimum_age IS NULL OR vt.minimum_age <= ?)
         ''',
@@ -136,7 +137,11 @@ def vaccination_status():
         if last_date is None:
             needs_vaccination = True
         else:
-            last_date_dt = datetime.strptime(last_date.strftime('%Y-%m-%d'), '%Y-%m-%d')
+            # 마지막 접종일이 문자열이라면 datetime 객체로 변환
+            if isinstance(last_date, str):
+                last_date_dt = datetime.strptime(last_date, '%Y-%m-%d')
+            else:
+                last_date_dt = last_date
             interval = vt['vaccination_interval']  # 일 수로 저장되었다고 가정
             if interval:
                 next_due_date = last_date_dt + timedelta(days=interval)
